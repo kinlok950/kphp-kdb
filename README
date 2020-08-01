@@ -1,3 +1,61 @@
+Сборка осуществлялась на Ubuntu 12.04.4 LTS
+
+Необходимые пакеты:
+
+sudo apt-get install git-core openssl zlib1g-dev libcg libpcre3-dev libssl-dev build-essential
+
+Ставим libre2:
+
+git clone https://github.com/kinlok950/re2
+cd re2
+make
+make test
+make install
+make testinstall
+
+Клонируем репозиторий:
+Здесь есть значемые фиксы
+
+cd /usr/local/src/
+git clone https://github.com/kinlok950/kphp-kdb
+
+
+Сборка KPHP:
+
+make kphp
+
+Сборка KDB (за исключением image, filesys, spell, tl, binlog):
+
+make all
+
+KPHP/KDB собраны!
+
+Далее для нормальной работы нам потребуется пользователь "kitten"
+Создаем его (/var/lib/engine - лучше всего здесь, потом пригодится):
+
+mkdir /var/lib/engine
+sudo useradd kitten -b /var/lib/engine -u 239
+chown -R kitten:kitten /var/lib/engine/
+
+Пример запуска KPHP: Компиляция PHP в KPHP https://github.com/kinlok950/kphp-kdb/blob/master/docs/ru/KittenDB_Compile%20PHP%20v%20KPHP.WIKI
+Настройка Engine для запуска KDB движков: https://github.com/kinlok950/kphp-kdb/blob/master/docs/ru/KittenDB_Engine.WIKI
+
+Комментарий от Rostislav Morozov
+
+Установить получилось на debian с 64х битной системой под виртуализацией KVM, на OVZ не получилось скомпилировать php в kphp. Если ставите с нуля, то еще понадобится выполнить
+sudo apt-get install build-essential
+
+Так же будет полезно: не ставится(!) на 32х битной системе и как я понял обязательно требуется свап:
+dd if=/dev/zero of=/swapfile bs=1M count=512
+chmod 600 /swapfile
+mkswap /swapfile
+nano /etc/fstab
+
+и вставить:
+/swapfile swap swap defaults 0 0
+swapon /swapfile
+
+
 This is VK/KittenPHP-DB-Engine project, consisting of efficient PHP-to-C++ translator called "KPHP" or "KittenPHP", and several auxiliary high-performance "engines" (specialized non-relational databases), needed for its deployment.
 
 It has been developed since 2009 mostly by Vkontakte Ltd, operator of social network VK.COM, and thoroughfully tested in high-performance enviroments, until a version useful for the general public was obtained. Fulfilling several previously given public promises, this version is now released for public use under GPL/LGPL terms.
