@@ -1,0 +1,59 @@
+Инструкция написана с учетом установки KPHP по этой инструкции:
+
+Внимание!
+Интерфейсы Memcache и MySQL работают только если KPHP скомпилирован как сервер.
+
+export KPHP_PATH=/usr/local/src/kphp-kdb
+mkdir /var/www/testkphp
+cd /var/www/testkphp/
+
+
+Компилируем php в исполняемый kphp файл:
+
+Для примера возьмем файл тестов bench.php
+Лежит он здесь: https://gist.github.com/anonymous/9391146
+
+wget https://gist.githubusercontent.com/anonymous/9391146/raw/9b3f6a07acb8f0e735b823ec4f7def6994f4c412/bench.php
+python /usr/local/src/kphp-kdb/KPHP/tests/kphp.py bench.php -o bench
+
+
+
+После компиляции запускаем
+
+./bench
+
+Должны увидеть таблицу тестов.
+Сравниваем с php:
+
+php bench.php
+
+
+Компилируем php в kphp-http сервер:
+
+cd /var/www/testkphp/
+vim index.php
+
+Вставляем тестовое содержимое:
+
+<?
+print_r($_GET);
+print_r($_SERVER);
+
+Компилируем файл с ключом -n:
+
+python /usr/local/src/kphp-kdb/KPHP/tests/kphp.py index.php -o server -n
+
+На выходе получаем исполняемый файл "server"
+Запускаем:
+
+./server -H 8080
+
+Проверяем:
+
+http://127.0.0.1:8080
+
+Если при запуске скомпилированного kphp сервера будет выпадать ошибка:
+error while loading shared libraries: libre2.so.0: cannot open shared object file: No such file or directory
+Нужно задать LD_LIBRARY_PATH
+
+export LD_LIBRARY_PATH=/usr/local/lib/
