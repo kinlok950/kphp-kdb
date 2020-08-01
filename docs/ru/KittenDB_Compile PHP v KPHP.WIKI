@@ -14,6 +14,7 @@ cd /var/www/testkphp/
 Лежит он здесь: https://gist.github.com/anonymous/9391146
 
 wget https://gist.githubusercontent.com/anonymous/9391146/raw/9b3f6a07acb8f0e735b823ec4f7def6994f4c412/bench.php
+
 python /usr/local/src/kphp-kdb/KPHP/tests/kphp.py bench.php -o bench
 
 
