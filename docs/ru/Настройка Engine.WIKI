@@ -1,0 +1,21 @@
+Инструкция с учетом установки KDB по этой инструкции:
+
+Создаем необходимые каталоги:
+
+mkdir -p /usr/share/engine/bin /var/log/engine/ /etc/engine
+
+Копируем все необходимое:
+
+cp /usr/local/src/kphp-kdb/objs/bin/* /usr/share/engine/bin/
+cp /usr/local/src/kphp-kdb/scripts/debian-init.d-engine /etc/init.d/engine
+cp /usr/local/src/kphp-kdb/scripts/_etc_logrotate.d_engine /etc/logrotate.d/engine
+cp /usr/local/src/kphp-kdb/scripts/start-engine /usr/share/engine/bin/
+
+Настраиваем ротацию логов:
+
+logrotate -d /etc/logrotate.d/engine
+logrotate -v -f /etc/logrotate.d/engine
+
+Теперь можно запускать KDB движки и скомпилированные KPHP сервера как демоны.
+
+Для примера запустим lists-engine: Запуск/Настройка Lists-Engine
